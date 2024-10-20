@@ -20,6 +20,9 @@ const lightbox = new SimpleLightbox('.gallery a', {
 const form = document.querySelector('.form');
 const gallery = document.querySelector('.gallery');
 const loader = document.querySelector('.loader');
+const loadMoreBtn = document.querySelector('.load-more');
+
+let page;
 
 form.addEventListener('submit', e => {
   e.preventDefault();
@@ -34,19 +37,57 @@ form.addEventListener('submit', e => {
     return;
   }
 
+  page = 1;
+  loadMoreBtn.classList.add('is-hidden');
   gallery.innerHTML = '';
   loader.classList.remove('is-hidden');
 
-  searchImages(query)
+  search(query);
+});
+
+loadMoreBtn.addEventListener('click', () => {
+  const query = form.elements.q.value.trim();
+
+  loader.classList.remove('is-hidden');
+  loadMoreBtn.classList.add('is-hidden');
+
+  search(query);
+
+  setTimeout(() => {
+    const galleryItem = document.querySelector('.gallery-item');
+    if (galleryItem) {
+      const galleryItemHeight = galleryItem.getBoundingClientRect().height;
+      window.scrollBy({
+        top: galleryItemHeight * 2,
+        behavior: 'smooth',
+      });
+    }
+  }, 500);
+});
+
+function search(query) {
+  searchImages(query, page)
     .then(data => {
+      const isLastPage = page >= Math.ceil(data.totalHits / 15);
+
       if (data.hits.length === 0) {
-        iziToast.error({
-          message:
-            'Sorry, there are no images matching your search query. Please try again!',
+        iziToast.warning({
+          message: 'No more images found',
         });
+        return;
       } else {
-        gallery.innerHTML = getGallery(data.hits);
+        page += 1;
+        gallery.insertAdjacentHTML('beforeend', getGallery(data.hits));
         lightbox.refresh();
+      }
+
+      if (isLastPage) {
+        iziToast.info({
+          message: "We're sorry, but you've reached the end of search results.",
+        });
+        loadMoreBtn.classList.add('is-hidden');
+      } else {
+        loadMoreBtn.classList.remove('is-hidden');
       }
     })
     .catch(err => {
@@ -55,7 +96,6 @@ form.addEventListener('submit', e => {
       });
     })
     .finally(() => {
-      form.reset();
       loader.classList.add('is-hidden');
     });
-});
+}
