@@ -4,6 +4,9 @@
   | default @import url()
   |============================
 */
+/* Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
 /* Common styles */
 @import url('./reset.css');
 @import url('./base.css');
@@ -16,3 +19,130 @@
 @import url('./badges.css');
 @import url('./back-link.css');
 @import url('./footer.css');
+
+.form-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: 2em;
+  flex-direction: column;
+  align-items: center;
+  row-gap: 50px;
+}
+
+form {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+input {
+  height: 40px;
+  width: 100%;
+  max-width: 371px;
+  border: 1px solid #808080;
+  border-radius: 4px;
+  outline: none;
+  padding: 0 16px;
+
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 150%;
+  letter-spacing: 0.04em;
+  color: #808080;
+}
+
+input:focus {
+  border: 1px solid #4e75ff;
+}
+
+input:hover {
+  border: 1px solid #000;
+}
+
+button {
+  font-family: inherit;
+  outline: none;
+  background: #4e75ff;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 150%;
+  letter-spacing: 0.04em;
+  color: #fff;
+  border-radius: 8px;
+  padding: 8px 16px;
+  border: none;
+}
+
+button:hover {
+  background: #6c8cff;
+}
+
+ul.gallery {
+  margin: 0 auto;
+  max-width: 1128px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  margin-top: 24px;
+}
+
+.gallery-item {
+  width: calc((100% - 48px) / 3);
+  border: 1px solid #808080;
+  box-sizing: border-box;
+}
+
+.gallery-image {
+  height: 152px;
+  width: 100%;
+  object-fit: cover;
+}
+
+.info {
+  margin-top: 8px;
+  display: flex;
+  justify-content: space-around;
+}
+
+.info-details {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 200%;
+  letter-spacing: 0.04em;
+  color: #2e2f42;
+}
+
+.info-text {
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 133%;
+  letter-spacing: 0.04em;
+  color: #2e2f42;
+}
+
+.loader {
+  width: 48px;
+  height: 48px;
+  border: 5px solid;
+  border-color: #FF3D00 transparent;
+  border-radius: 50%;
+  display: inline-block;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.is-hidden {
+  display: none;
+}
